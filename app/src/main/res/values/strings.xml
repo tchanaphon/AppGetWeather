@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CurrentWeather</string>
+    <string name="Celsius">(Celsius)</string>
+    <string name="Fahrenheit">(Fahrenheit)</string>
+</resources>
