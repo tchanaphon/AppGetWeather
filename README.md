@@ -2,7 +2,7 @@
 
 for build project\
 Gradle Plugin Version 7.2.0\
-Gradle Version 7.3.3\
+Gradle Version 7.3.3
 
 ![image](https://user-images.githubusercontent.com/117010439/198877234-4f749858-2bf5-4cbe-bef9-dca9d721e4f7.png)
 
