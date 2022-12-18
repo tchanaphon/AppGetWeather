@@ -1,5 +1,6 @@
 package com.example.testweather
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -9,61 +10,53 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import com.example.testweather.data.GetModel
-import com.example.testweather.data.model.WeatherInfo2
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.testweather.api.OpenWeatherAPIRepository
+import com.example.testweather.api.OpenweatherAPI
+import com.example.testweather.factory.WeatherViewModelFactory
 import com.example.testweather.databinding.FragmentWeatherBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.async
+import java.util.*
 
+@AndroidEntryPoint
 class WeatherFragment : Fragment() {
     private lateinit var binding:FragmentWeatherBinding
 
-    companion object {
-        fun newInstance() = WeatherFragment()
-    }
+    private val app_id = "2e1a07ea728d2b38affd10d9d70f3fe2"
 
-    private lateinit var viewModel: WeatherViewModel
+    private val viewModel: WeatherViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWeatherBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
+       // viewModel = ViewModelProvider(this,factory)[WeatherViewModel::class.java]
+        getWeather("Bangkok")
+    }
 
-        binding.btSearchWeather.setOnClickListener {
-            val cityname:String = binding.editText.text.toString()
-            GetModel.callWeatherApi(cityname,getTemType(),object :GetModel.OnGetWeather{
-                override fun onSuccess(w: WeatherInfo2) {
-                    println(w.toString())
-                    binding.tvTem.text = w.main.temp.toString()
-                    binding.tvHum.text = w.main.humidity.toString()
-                    when(getTemType()){
-                        "metric" -> binding.showtype.text = getString(R.string.Celsius)
-                        "imperial" -> binding.showtype.text = getString(R.string.Fahrenheit)
-                    }
-                }
-                override fun onFail(string: String) {
-                    println(string)
-                    Toast.makeText(context,string,Toast.LENGTH_SHORT).show()
-                }
-            })
-            requireActivity().hideKeyboard()
-        }
+    @SuppressLint("SetTextI18n")
+    private fun getWeather(city:String){
+        viewModel.getWeather(city,app_id,getTemType())
 
-        binding.temType.setOnClickListener{
-            when(getTemType()){
-                "metric" -> { setTemType("imperial") }
-                "imperial" -> { setTemType("metric") }
-            }
-            binding.showtype.text = ""
-            binding.tvTem.text = ""
-            binding.tvHum.text = ""
+        viewModel.weather.observe(viewLifecycleOwner) {
+            binding.city.text = it.name
+            val datetime = Date(it.dt*1000)
+            binding.time.text = datetime.toString()
+            getIcon(binding.icon,it.weather[0].icon)
+            binding.tvTem.text = it.main.temp.toString()+" °C"
+            binding.tvHum.text = it.main.humidity.toString()+" %"
+            binding.feels.text = "Feels like "+it.main.feelsLike+" °C"
+            binding.description.text = it.weather[0].description
+            binding.wind.text = "Wind Speed "+it.wind.speed
         }
     }
 

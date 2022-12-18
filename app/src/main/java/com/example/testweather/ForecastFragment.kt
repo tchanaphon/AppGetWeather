@@ -9,54 +9,44 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testweather.RecycleView.ForecastAdapter
-import com.example.testweather.data.GetModel
-import com.example.testweather.data.model.ForecastInfo
-import com.example.testweather.data.model.WeatherInfo2
+import com.example.testweather.api.OpenWeatherAPIRepository
+import com.example.testweather.api.OpenweatherAPI
+import com.example.testweather.factory.ForcastViewModelFactory
 import com.example.testweather.databinding.FragmentForecastBinding
-import com.example.testweather.databinding.FragmentWeatherBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ForecastFragment : Fragment() {
     private lateinit var binding: FragmentForecastBinding
 
-    companion object {
-        fun newInstance() = ForecastFragment()
-    }
+    private lateinit var factory: ForcastViewModelFactory
+    private val viewModel: ForecastViewModel by viewModels()
 
-    private lateinit var viewModel: ForecastViewModel
+    private val app_id = "2e1a07ea728d2b38affd10d9d70f3fe2"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentForecastBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
 
-        binding.recyclerview.layoutManager = GridLayoutManager(requireContext(),1,GridLayoutManager.VERTICAL,false)
-        binding.btSearchForecast.setOnClickListener {
-            val cityname:String = binding.editText.text.toString()
-
-            GetModel.callWeatherApi(cityname,getTemType(),object : GetModel.OnGetForecast{
-                override fun onSuccess(w: ForecastInfo) {
-                    binding.recyclerview.adapter = ForecastAdapter(w,requireContext())
-                }
-
-                override fun onFail(string: String) {
-                    println(string)
-                    Toast.makeText(context,string, Toast.LENGTH_SHORT).show()
-                }
-
-            })
-            requireActivity().hideKeyboard()
-        }
+        viewModel.getForcast("bangkok",app_id,getTemType())
+        viewModel.forcast.observe(viewLifecycleOwner, Observer { forcastInfo ->
+            binding.recyclerview.also {
+                it.layoutManager = LinearLayoutManager(requireContext())
+                it.setHasFixedSize(true)
+                it.adapter = ForecastAdapter(forcastInfo)
+            }
+        })
     }
 
     fun Activity.hideKeyboard() {
