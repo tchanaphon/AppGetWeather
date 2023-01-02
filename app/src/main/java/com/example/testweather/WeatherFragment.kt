@@ -41,6 +41,7 @@ class WeatherFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
        // viewModel = ViewModelProvider(this,factory)[WeatherViewModel::class.java]
         getWeather("Bangkok")
+
     }
 
     @SuppressLint("SetTextI18n")

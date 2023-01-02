@@ -42,15 +42,6 @@ class MainActivity : AppCompatActivity() {
 //        //thread.isDaemon = true
 //        thread.start()
 
-        thread(start = true,isDaemon = false){
-            var aa = 0
-            for (i in 1..1000000){
-                val myApi : OpenweatherAPI = OpenweatherAPI.getInstance()
-                aa+=i
-                println(myApi.toString().plus(getTemType()+aa).plus(" ").plus(i))
-            }
-        }
-
 
 //        findNavController(R.id.forecastFragment)
 //        findNavController(R.id.weatherFragment).popBackStack()

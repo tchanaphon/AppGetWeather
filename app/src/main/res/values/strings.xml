@@ -2,4 +2,6 @@
     <string name="app_name">CurrentWeather</string>
     <string name="Celsius">(Celsius)</string>
     <string name="Fahrenheit">(Fahrenheit)</string>
+    <string name="en">EN</string>
+    <string name="th">TH</string>
 </resources>

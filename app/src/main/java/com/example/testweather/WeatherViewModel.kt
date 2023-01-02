@@ -36,13 +36,13 @@ class WeatherViewModel @Inject constructor(
 
     private val _weather2 :MutableSharedFlow<WeatherInfo2> = MutableSharedFlow()
 
-    init {
-        ScopeProvider.launch {
-            _weather2.collect { w ->
-                _weather.value = w
-            }
-        }
-    }
+//    init {
+//        ScopeProvider.launch {
+//            _weather2.collect { w ->
+//                _weather.value = w
+//            }
+//        }
+//    }
 
     fun getWeather2(q:String,appId:String,unit:String):Job{
         return ScopeProvider.launch {

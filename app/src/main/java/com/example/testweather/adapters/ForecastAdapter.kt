@@ -1,15 +1,11 @@
-package com.example.testweather.RecycleView
+package com.example.testweather.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testweather.R
 import com.example.testweather.data.model.ForecastInfo
-import com.example.testweather.databinding.FragmentForecastBinding
 import com.example.testweather.databinding.LayoutListForecastBinding
 import com.example.testweather.getIcon
 import java.text.SimpleDateFormat
