@@ -8,9 +8,26 @@ support minSDK level 24
 
 get Weather from API. query by name of city. and weather forecast every 3 hour.
 
-![weather](https://user-images.githubusercontent.com/117010439/208309028-eaacbc95-e74d-46ec-b55d-f0865ecb1a1a.jpg)
+- MVVM Pattern
+- Coroutine Flow
+- LiveData
+- Dagger (Hilt)
+- Navigation
+- CoordinatorLayout
 
-![forecast](https://user-images.githubusercontent.com/117010439/208309047-c3a69d25-6b04-45e6-a07a-9599a2e5df22.jpg)
+
+![Screenshot_20230102_214949](https://user-images.githubusercontent.com/117010439/210248070-0b5237be-f5c1-45da-84c4-8440ccbd2e00.png)
 
 
-DI by Hilt Dagger and switch flagment by Navigation coming soon.
+![Screenshot_20230102_215028](https://user-images.githubusercontent.com/117010439/210248089-26b71660-8f25-40a2-adcc-33d848d8a39b.png)
+
+
+![Screenshot_20230102_215045](https://user-images.githubusercontent.com/117010439/210248108-732ceca2-433e-476b-876a-71b1e6c375b6.png)
+
+
+![Screenshot_20230102_215101](https://user-images.githubusercontent.com/117010439/210248122-2c472705-b45c-4f69-838c-15ee37974853.png)
+
+
+![weather_gift](https://user-images.githubusercontent.com/117010439/210248137-44c8ba5b-1b1f-42f5-9b12-980806407461.gif)
+
+
